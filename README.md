@@ -2,86 +2,108 @@
 
 ## Overview
 
-This project simulates a robot delivering parcels across a fictional village. The simulation is built using JavaScript and runs in a browser. It demonstrates concepts of graph traversal, state management, and performance evaluation of various pathfinding and task-solving algorithms.
+This project simulates a robot delivering parcels across a fictional village. The simulation, built using JavaScript and running in a browser, showcases concepts of graph traversal, state management, algorithm optimization, and interactive visualization. 
 
-The project includes:
-1. A simulation of a robot delivering parcels.
-2. Multiple robot algorithms to explore different strategies.
-3. A visual animation of the robot's movements.
-4. Performance tests to compare the efficiency of the algorithms.
+The project has been improved with enhanced features such as dynamic status tables, refined animations, optimized algorithms, and error handling for a seamless user experience. It is a great resource for learning about robotics simulations, algorithm efficiency, and interactive web applications.
 
 ---
 
 ## Features
 
-- **Graph-Based Pathfinding:** The village is represented as a graph where nodes are locations, and edges are roads connecting them.
-- **Multiple Algorithms:** Three robot strategies are implemented:
-  1. **Random Robot:** Moves randomly to adjacent nodes.
-  2. **Route Robot:** Follows a predefined route.
-  3. **Goal-Oriented Robot:** Uses a task-focused approach to deliver parcels efficiently.
-  4. **Lazy Robot:** Optimized to prioritize tasks based on route length and parcel pick-up.
-- **Performance Comparison:** Includes tools to measure and compare the efficiency of the algorithms.
+### Core Features:
+- **Graph-Based Pathfinding:** The village is represented as a graph, where nodes are locations, and edges are roads connecting them.
+- **Multiple Robot Strategies:** Implemented algorithms to solve the parcel delivery problem:
+  1. **Random Robot:** Moves randomly between adjacent nodes.
+  2. **Route Robot:** Follows a fixed predefined route.
+  3. **Goal-Oriented Robot:** Focuses on delivering parcels efficiently by prioritizing the nearest tasks.
+  4. **Lazy Robot:** Optimized to calculate the most efficient route based on task prioritization and distance minimization.
+- **Performance Comparison:** Tools to measure and compare the average steps taken by different robot strategies.
 - **Persistent Data Structure (PGroup):** Implements a functional data structure to manage immutable collections.
-- **Animation:** A visual representation of the robot's movements using an SVG map of the village.
+
+### New and Enhanced Features:
+- **Dynamic Status Table:** Real-time status updates for the robot's location, parcel status, and movements in a visually interactive table.
+- **Improved Animations:** Enhanced SVG-based animations for better visualization of the robot’s journey through the village.
+- **Error Handling:** Added safeguards to ensure smooth execution, such as handling cases where HTML elements are missing or incorrectly referenced.
+- **Responsive Design:** Adapted the simulation for various screen sizes and devices to ensure compatibility.
 
 ---
 
-## Modules
+## Project Structure
 
-### `robot.js`
-This is the core logic file for the simulation. Key components:
-- **Graph Representation:** Roads are represented as a graph using adjacency lists.
-- **Village State:** Encapsulates the robot's current location and the parcels to be delivered.
-- **Robots:** Implements various strategies (`randomRobot`, `routeRobot`, `goalOrientedRobot`, and `lazyRobot`).
-- **Performance Testing:** Functions (`countSteps` and `compareRobots`) for evaluating and comparing algorithm efficiency.
+### Modules and Files:
 
-### `animate.js`
-This module handles the visual animation of the robot's movement:
-- Renders the robot and parcels on a pre-defined map.
-- Updates the robot's position in real-time as it moves between locations.
+#### `robot.js`
+This is the core logic file containing:
+- **Graph Representation:** Encodes roads and connections using adjacency lists.
+- **Village State:** Encapsulates the robot’s position and the parcels’ locations.
+- **Robot Strategies:** Defines the behavior of `randomRobot`, `routeRobot`, `goalOrientedRobot`, and `lazyRobot`.
+- **Performance Testing:** Functions to measure and compare the efficiency of robot algorithms.
 
-### `index.html`
-The entry point for running the simulation in a browser:
-- Links `robot.js` and `animate.js`.
-- Initializes the simulation with random parcels and the selected robot strategy.
+#### `animate.js`
+Handles the visual rendering and real-time updates:
+- Animates the robot’s movements and parcel deliveries.
+- Updates visual indicators for robot location and parcel statuses.
 
----
+#### `index.html`
+The entry point for the simulation:
+- Integrates all JavaScript modules.
+- Configures the robot strategy and initializes the simulation.
 
-## Exercises for Performance Evaluation
-
-To measure the performance of the algorithms:
-1. **Setup:** Call `compareRobots(robot1, memory1, robot2, memory2)` to evaluate two robots over 100 tasks.
-2. **Metrics:** The output displays the average number of steps each robot takes to complete a task.
-3. **Customization:** Modify the `parcelCount` in `VillageState.random(parcelCount)` to test with varying task complexities.
+#### `styles.css`
+Contains styles for the status table, animations, and overall layout of the interface.
 
 ---
 
 ## Setup and Run Guide
 
 ### Prerequisites
-- A modern web browser (Chrome, Firefox, Edge, etc.).
-- No additional tools or libraries are required.
+- A modern web browser (e.g., Chrome, Firefox, Edge).
+- No external libraries or tools required.
 
-### Steps to Run
+### Steps to Run:
 1. Clone or download the project files to your local machine.
-2. Ensure the following files are present in the same directory:
+2. Ensure the following files are present in the directory:
    - `index.html`
    - `robot.js`
    - `animate.js`
-   - `village2x.png` (Map image for animation, placed in an `img/` directory).
-3. Open `index.html` in your browser.
-
-### Running the Simulation
-- By default, the simulation runs with `goalOrientedRobot` logic. To test other robots:
-  1. Modify the `runRobotAnimation` function call in `index.html`.
-  2. Replace `goalOrientedRobot` with `randomRobot`, `routeRobot`, or `lazyRobot`.
+   - `styles.css`
+   - `img/village2x.png` (map image for animations).
+3. Open `index.html` in a browser.
 
 ---
 
-## Example Output
-### Console Logs:
-- **Simulation Result:** Displays the number of turns taken to deliver all parcels.
-- **Robot Moves:** Logs each step the robot takes (e.g., "Moved to Alice's House").
+## Using the Simulation
 
-### Performance Tests:
-- Output example:
+### Running the Simulation:
+1. Open the project in your browser.
+2. The simulation defaults to the **Goal-Oriented Robot** strategy. 
+3. To test other robot strategies:
+   - Open `index.html` in a code editor.
+   - Modify the `runRobotAnimation` function by replacing `goalOrientedRobot` with:
+     - `randomRobot`
+     - `routeRobot`
+     - `lazyRobot`
+4. Save the changes and reload the browser page.
+
+### Interacting with the Simulation:
+- Watch the robot navigate the village and deliver parcels on the animated map.
+- View real-time updates in the **status table**, which includes:
+  - Current robot location.
+  - Number of parcels remaining.
+  - Robot’s route.
+
+---
+
+## Performance Evaluation
+
+### How to Measure Algorithm Efficiency:
+1. Use the `compareRobots` function in `robot.js` to test the efficiency of two robot strategies:
+   ```javascript
+   compareRobots(goalOrientedRobot, [], lazyRobot, []);
+2. Results are logged in the browser console, showing:
+Average steps taken by each robot strategy over 100 simulations.
+
+### Customizing Tests:
+Modify the number of parcels generated by adjusting the parcelCount value in:
+```javascript
+VillageState.random(parcelCount);
