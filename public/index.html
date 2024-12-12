@@ -9,13 +9,32 @@
 <body>
   <script src="/javascripts/robot.js"></script>
   <script src="/javascripts/animate.js"></script>
-  <script>
-    // Initialize the animation
-    runRobotAnimation(
-      VillageState.random(),      // Initial state with random parcels
-      goalOrientedRobot,          // Robot logic
-      []                          // Initial memory for the robot
-    );
-  </script>
+  <div class="simulation-display">
+    <script>
+      // Initialize the animation
+      runRobotAnimation(
+        VillageState.random(),      // Initial state with random parcels
+        goalOrientedRobot,          // Robot logic
+        []                          // Initial memory for the robot
+      );
+    </script>
+  </div>
+  <div id="simulation-container">
+    <h1>Robot Delivery Simulation</h1>
+    <table id="status-table">
+      <thead>
+        <tr>
+          <th>Location</th>
+          <th>Parcels</th>
+          <th>Robot</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+
+    <div id="move-details">
+      <h2>Move Details</h2>
+    </div>
+</div>
 </body>
 </html>

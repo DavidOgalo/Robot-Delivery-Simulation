@@ -90,8 +90,44 @@
           this.text.textContent = ` Turn ${this.turn} `;
       }
 
-      // Updates the position of parcels on the map
-      updateParcels() {
+      // Method to initialize and update the parcel distribution table
+    updateTable() {
+        const tableBody = document.querySelector("#status-table tbody");
+        tableBody.innerHTML = ""; // Clear previous entries
+
+        const parcelCounts = {};
+        for (let key of Object.keys(places)) {
+            parcelCounts[key] = 0; // Initialize count
+        }
+
+        for (let parcel of this.worldState.parcels) {
+            parcelCounts[parcel.place]++;
+        }
+
+        for (let [place, count] of Object.entries(parcelCounts)) {
+            const row = document.createElement("tr");
+        
+            const locationCell = document.createElement("td");
+            locationCell.textContent = `${place}`;
+        
+            const parcelsCell = document.createElement("td");
+            parcelsCell.textContent = count > 0 ? `${count} 📦` : "No parcels"; 
+        
+            const robotCell = document.createElement("td");
+            robotCell.textContent = place === this.worldState.place ? "🤖 Robot Here" : ""; 
+        
+            row.appendChild(locationCell);
+            row.appendChild(parcelsCell);
+            row.appendChild(robotCell);
+        
+            tableBody.appendChild(row);
+        }
+        
+    }
+
+      
+      // Updates the position of parcels on the map and calls 'updateTable' whenever parcels are updated
+    updateParcels() {
         while (this.parcels.length) this.parcels.pop().remove(); // Clear old parcels
         let heights = {}; // Track stack heights for parcels at each place
     
@@ -103,9 +139,9 @@
             let offset = placeKeys.indexOf(address) * 16;
             node.style.cssText = `
                 position: absolute;
-                height: 40px;
-                width: 40px;
-                background-image: url(./public/images/parcel2x.png);
+                height: 20px;
+                width: 20px;
+                background-image: url(./images/parcel2x.png);
                 background-position: 0 -${offset}px;
             `;
     
@@ -124,28 +160,38 @@
                 }
             }
             this.parcels.push(node);
-            console.log(`Parcel placed at ${place} heading to ${address}`);
         }
+    
+        this.updateTable(); // Update the table with the latest state
     }
     
-      // Simulates a single turn of the animation
-      tick() {
-          let {direction, memory} = this.robot(this.worldState, this.robotState);
-          this.worldState = this.worldState.move(direction);
-          this.robotState = memory;
-          this.turn++;
+      // Simulates a single turn of the animation and calls 'updateTable'
+    tick() {
+        console.log(`Turn: ${this.turn}, Parcels: ${this.worldState.parcels.length}`);
+        let { direction, memory } = this.robot(this.worldState, this.robotState);
+        this.worldState = this.worldState.move(direction);
+        this.robotState = memory;
+        this.turn++;
 
-          this.updateView();
+        this.updateView();
+        this.updateTable();
 
-          if (this.worldState.parcels.length == 0) {
-              // If all parcels are delivered, stop the animation
-              this.button.remove();
-              this.text.textContent = ` Finished after ${this.turn} turns`;
-              this.robotElt.firstChild.src = "./images/robot_idle2x.gif"; 
-          } else {
-              this.schedule();
-          }
-      }
+        // Update the "Move Details" section
+        const moveDetails = document.querySelector("#move-details");
+        moveDetails.innerHTML = `<h2>Move Details</h2>
+                                <p>Turn: ${this.turn}</p>
+                                <p>Robot Location: ${this.worldState.place}</p>
+                                <p>Remaining Parcels: ${this.worldState.parcels.length}</p>`;
+
+        if (this.worldState.parcels.length == 0) {
+            this.button.remove();
+            this.text.textContent = ` Finished after ${this.turn} turns`;
+            this.robotElt.firstChild.src = "./images/robot_idle2x.gif";
+        } else {
+            this.schedule();
+        }
+    }
+
 
       // Schedules the next tick of the animation
       schedule() {
